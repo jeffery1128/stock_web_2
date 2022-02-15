@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+   function delay(n){
+    return new Promise(function(resolve){
+        setTimeout(resolve,n*1000);
+        });
+    }
+
+    function get_index(idx){
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            //console.log(this.responseText)
+            let json = JSON.parse(this.responseText)
+            console.log(json)
+            console.log(idx+"_change")
+            console.log(json[idx+"_change"])
+            if(json[idx+"_change"].indexOf("\u2212")==-1){
+                document.getElementById("index_change").style.color = "green"
+                document.getElementById("index_percent").style.color = "green"
+                json[idx+"_change"] = "&uarr;" + json[idx+"_change"]
+            }
+            else{
+                document.getElementById("index_change").style.color = "red"
+                document.getElementById("index_percent").style.color = "red"
+                json[idx+"_change"] = "&darr;" + json[idx+"_change"].replace("\u2212","")
+            }           
+            document.getElementById("index_name").innerHTML = idx;
+            document.getElementById("index").innerHTML = json[idx];
+            document.getElementById("index_change").innerHTML = json[idx+"_change"];
+            document.getElementById("index_percent").innerHTML = json[idx+"_percent"];
+        }
+        xhttp.open("GET", './get_'+idx ,true)
+        xhttp.send()
+    }
+    function looping(){
+        setInterval(refreshDOM,30000)
+    }
+
+    async function refreshDOM(){
+        await get_index("dji");
+        await delay(10);
+        await get_index("hsi");
+        await delay(10);
+        await get_index("gold");
+        await delay(10);
+    }
+
+
+
+</script>
+<body onload="looping()">
+    <div class="stock_card">
+        <h1 id="index_name"></h1>
+        <h1 id="index"></h1>
+        <h2 id="index_change"></h2>
+        <h2 id="index_percent"></h2>
+    </div>
+</body>
+</html>
