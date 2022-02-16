@@ -5,6 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            background-image: url('https://t3.ftcdn.net/jpg/02/86/72/66/360_F_286726656_dd7jGDc78W6zQV45ds0bXRqSey45apj4.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            
+        }
+        .stock_card{
+            margin: 2em;
+        }
+        .inside{
+            background-color:rgba(255, 255, 255, 0.3);
+            padding: 1em;
+            
+        }
+    </style>
 </head>
 <script>
    function delay(n){
@@ -31,7 +47,7 @@
                 document.getElementById("index_percent").style.color = "red"
                 json[idx+"_change"] = "&darr;" + json[idx+"_change"].replace("\u2212","")
             }           
-            document.getElementById("index_name").innerHTML = idx;
+            document.getElementById("index_name").innerHTML = json["index_name"];
             document.getElementById("index").innerHTML = json[idx];
             document.getElementById("index_change").innerHTML = json[idx+"_change"];
             document.getElementById("index_percent").innerHTML = json[idx+"_percent"];
@@ -57,10 +73,12 @@
 </script>
 <body onload="looping()">
     <div class="stock_card">
-        <h1 id="index_name"></h1>
-        <h1 id="index"></h1>
-        <h2 id="index_change"></h2>
-        <h2 id="index_percent"></h2>
+        <div class="inside">
+            <h3 id="index_name"></h3>
+            <h2 id="index"></h2>
+            <h2 id="index_change"></h2>
+            <h2 id="index_percent"></h2>
+        </div>
     </div>
 </body>
 </html>
